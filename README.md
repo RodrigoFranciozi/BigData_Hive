@@ -18,7 +18,7 @@ Link dos dados reais:
 https://dados.gov.br/dataset/cren_pedologiaamazonialegal_250/resource/30a23fae-c13b-4c4a-8b07-de9e66582b06?inner_span=True
 
 
-### Passo a passo:
+### Passo a passo (Hive):
 
 Iniciando os nodes do Hadoop:
 
@@ -30,7 +30,7 @@ Verificando os nodes que iniciaram:
 
 `jps`
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/70d6ff89-8807-4d8a-a7e3-1a231cad5ab3/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/70d6ff89-8807-4d8a-a7e3-1a231cad5ab3/Untitled.png)
+![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/nodes.png)
 
 Verificando as pastas existentes dentro do HDFS:
 
@@ -40,11 +40,11 @@ criando uma pasta chamada "projeto" dentro do da pasta datasets do HDFS:
 
 `hdfs dfs -mkdir /datasets/projeto`
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d3c1f0e6-d216-47bb-b387-8148dcba298f/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d3c1f0e6-d216-47bb-b387-8148dcba298f/Untitled.png)
+![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/criacao_pasta_projeto.png)
 
 Copiando os 2 arquivos necessarios para a pasta projetos que acaba de ser criada. 
 
-Ps: Nao esquecer de entrar na pasta onde os arquivos se encontram, caso o contrario voce nao sera capaz de copialos para dentro do HDFS.
+**(Ps: Nao esquecer de entrar na pasta onde os arquivos se encontram, caso o contrario voce nao sera capaz de copialos para dentro do HDFS.)**
 
 `cd Downloads`
 
@@ -54,7 +54,7 @@ Ps: Nao esquecer de entrar na pasta onde os arquivos se encontram, caso o contra
 
 Com isso voce sera capaz de encontrar os 2 arquivos dentro do HDFS:
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/07abf8eb-aaa7-45e4-8e3d-7946c4736c92/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/07abf8eb-aaa7-45e4-8e3d-7946c4736c92/Untitled.png)
+![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/encontrar_arquivo_hdfs.png)
 
 Iniciando o Apache Hive:
 
@@ -68,7 +68,7 @@ username e o password nesse caso é só apertar a tecla enter duas vezes para pr
 
 Assim que se conectar com sucesso, a seguinte mensagem aparecerá:
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ea61a83d-8640-47d1-8a68-12eb9b908fbe/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ea61a83d-8640-47d1-8a68-12eb9b908fbe/Untitled.png)
+![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/sucesso_conexao.png)
 
 Criando um banco chamado "projeto":
 
@@ -78,7 +78,7 @@ Listando os bancos dentro do hive:
 
 `show databases;`
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6994992a-3de7-4f67-b697-3b2935060fd4/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6994992a-3de7-4f67-b697-3b2935060fd4/Untitled.png)
+![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/mostrando_databases.png)
 
 Mudando o banco a ser utilizado:
 
@@ -96,29 +96,29 @@ Populando as tabelas:
 
 `DESCRIBE unir`
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3d6a51db-eeab-41fc-aad6-5c9d242d36f4/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3d6a51db-eeab-41fc-aad6-5c9d242d36f4/Untitled.png)
+![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/descrevendo_unir.png)
 
 `LOAD DATA INPATH '/datasets/projeto/PedologiaAmazoniaLegal_250.csv' INTO TABLE solos;`
 
 `DESCRIBE solos`
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/195b2086-9e1c-472e-8ec0-783037c93649/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/195b2086-9e1c-472e-8ec0-783037c93649/Untitled.png)
+![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/descrevendo_solos.png)
 
 Conferindo se as tabelas estão populadas:
 
 `SELECT folha, quantidade_componentes, the_geom FROM solos LIMIT 10;`
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7fd0e08e-b3cb-436d-8244-0cae8b07ed8c/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7fd0e08e-b3cb-436d-8244-0cae8b07ed8c/Untitled.png)
+![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/select_solos_teste.png)
 
 `SELECT * FROM unir;`
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/99186126-06a5-4810-9c49-c95720a0f2bb/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/99186126-06a5-4810-9c49-c95720a0f2bb/Untitled.png)
+![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/select_unir_teste.png)
 
 Construindo uma tabela com um join para analises futuras:
 
 `SELECT solos.folha, solos.unidade_mapeamento, solos.quantidade_componentes, unir.cor, unir.fazendeiro FROM solos JOIN unir ON (solos.folha = unir.folha) LIMIT 10;`
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/64bd72b4-5660-4f97-82d4-0a5677a57b53/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/64bd72b4-5660-4f97-82d4-0a5677a57b53/Untitled.png)
+![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/construindo_join.png)
 
 Salvando em uma tabela:
 
@@ -128,7 +128,7 @@ Verificando se a tabela foi criada:
 
 `show tables;`
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4a3cc68f-1a04-41dc-bd24-69e6f428e9fa/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4a3cc68f-1a04-41dc-bd24-69e6f428e9fa/Untitled.png)
+![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/verificando_join_criado.png)
 
 Saindo do editor do hive:
 
@@ -141,4 +141,3 @@ Desligando os nodes:
 `stop-dfs.sh`
 
 FIM 🙂
-
