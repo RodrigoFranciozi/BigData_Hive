@@ -18,13 +18,14 @@ Link dos dados reais:
 https://dados.gov.br/dataset/cren_pedologiaamazonialegal_250/resource/30a23fae-c13b-4c4a-8b07-de9e66582b06?inner_span=True
 
 
-### Passo a passo (Hive):
+## Passo a passo (Hive):
 
-Iniciando os nodes do Hadoop:
+### Iniciando os nodes do Hadoop:
 
 `start-dfs.sh`
 
 `start-yarn.sh`
+
 
 Verificando os nodes que iniciaram:
 
@@ -32,15 +33,18 @@ Verificando os nodes que iniciaram:
 
 ![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/nodes.png)
 
+
 Verificando as pastas existentes dentro do HDFS:
 
 `hdfs dfs -ls /`
 
-criando uma pasta chamada "projeto" dentro do da pasta datasets do HDFS:
+
+Criando uma pasta chamada "projeto" dentro do da pasta datasets do HDFS:
 
 `hdfs dfs -mkdir /datasets/projeto`
 
 ![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/criacao_pasta_projeto.png)
+
 
 Copiando os 2 arquivos necessarios para a pasta projetos que acaba de ser criada. 
 
@@ -52,13 +56,16 @@ Copiando os 2 arquivos necessarios para a pasta projetos que acaba de ser criada
 
 `hdfs dfs -put PedologiaAmazoniaLegal_250.csv /datasets/projeto`
 
+
 Com isso voce sera capaz de encontrar os 2 arquivos dentro do HDFS:
 
 ![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/encontrar_arquivo_hdfs.png)
 
-Iniciando o Apache Hive:
+
+### Iniciando o Apache Hive:
 
 `beeline`
+
 
 Conectando com o Hive:
 
@@ -70,9 +77,11 @@ Assim que se conectar com sucesso, a seguinte mensagem aparecerá:
 
 ![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/sucesso_conexao.png)
 
+
 Criando um banco chamado "projeto":
 
 `CREATE DATABASE projeto`
+
 
 Listando os bancos dentro do hive:
 
@@ -80,15 +89,18 @@ Listando os bancos dentro do hive:
 
 ![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/mostrando_databases.png)
 
+
 Mudando o banco a ser utilizado:
 
 `USE projeto;`
+
 
 Criando as duas tabelas externas dentro de projeto:
 
 `CREATE EXTERNAL TABLE unir( folha string, cor string, fazendeiro string) row format delimited fields terminated by ',' stored as textfile TBLPROPERTIES( "skip.header.line.count"="1");`
 
 `CREATE EXTERNAL TABLE solos( FID string, Folha string,Unidade_Mapeamento string, Quantidade_Componentes int, Solo_ou_Terreno string, Simbolo_Unidade string, Ordem string, Subordem string, Grande_Grupo string, Subgrupo string, Descricao string, Inclusoes string, Textura_Principal_Componente string, Horizonte_Principal_Componente string, Erosao_Principal_Componente string, Pedregosidade_Principal_Componente string, Rochosidade_Principal_Componente string, Relevo_Principal_Componente string, Area_Poligono_Km2 double, the_geom string) row format delimited fields terminated by ',' stored as textfile TBLPROPERTIES( "skip.header.line.count"="1");`
+
 
 Populando as tabelas:
 
@@ -104,6 +116,7 @@ Populando as tabelas:
 
 ![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/descrevendo_solos.png)
 
+
 Conferindo se as tabelas estão populadas:
 
 `SELECT folha, quantidade_componentes, the_geom FROM solos LIMIT 10;`
@@ -114,15 +127,18 @@ Conferindo se as tabelas estão populadas:
 
 ![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/select_unir_teste.png)
 
+
 Construindo uma tabela com um join para analises futuras:
 
 `SELECT solos.folha, solos.unidade_mapeamento, solos.quantidade_componentes, unir.cor, unir.fazendeiro FROM solos JOIN unir ON (solos.folha = unir.folha) LIMIT 10;`
 
 ![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/construindo_join.png)
 
+
 Salvando em uma tabela:
 
 `CREATE TABLE juncao_dados AS SELECT solos.folha, solos.unidade_mapeamento, solos.quantidade_componentes, unir.cor, unir.fazendeiro FROM solos JOIN unir ON (solos.folha = unir.folha);`
+
 
 Verificando se a tabela foi criada:
 
@@ -130,14 +146,17 @@ Verificando se a tabela foi criada:
 
 ![](https://github.com/RodrigoFranciozi/projeto_BigData/blob/main/Hive/imgs/verificando_join_criado.png)
 
+
 Saindo do editor do hive:
 
 `!q`
+
 
 Desligando os nodes:
 
 `stop-yarn.sh`
 
 `stop-dfs.sh`
+
 
 FIM 🙂
